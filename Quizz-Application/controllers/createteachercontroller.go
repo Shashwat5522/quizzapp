@@ -23,8 +23,14 @@ func CreateTeacherController(c *gin.Context) {
 		})
 		return
 	}
-	
+	var tcount int64
+	dbconnection.DB.Model(&models.Role{}).Where("role_name=?","teacher").Count(&tcount)
+	if tcount!=1{
+		dbconnection.DB.Create(&models.Role{Role_name: "teacher"})
+	}
 	dbconnection.DB.Debug().Model(&models.User{}).Where("name=?",name).Update("role_name","teacher")
+	
+
 	c.HTML(200, "addteacher.html", gin.H{
 		"error": "Role changed successfully!!!",
 	})

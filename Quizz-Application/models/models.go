@@ -5,9 +5,36 @@ type User struct {
 	Name     string `json:"name" form:"name"`
 	Email    string `json:"email" form:"email"`
 	Password string `json:"password" form:"password"`
-	RoleName string `json:"rolename" form:"rolename"`
+	RoleName string ` gorm :"type:varchar(50)" json:"rolename" form:"rolename"`
 	Role     Role   `gorm:"foreignKey:RoleName;References:Role_name"`
 }
 type Role struct {
-	Role_name string `gorm:"primaryKey"`
+	Role_name string `gorm:"primaryKey;type:varchar(50)" `
+}
+
+type Questions struct{
+	ID int `gorm:"primaryKey"`
+	Question string `json:"question" form:"question" binding:"required"`
+	OptionA  string `json:"optiona" form:"optiona" binding:"required"`
+	OptionB  string  `json:"optionb" form:"optionb" binding:"required"`
+	OptionC  string  `json:"optionc" form:"optionc" binding:"required"`
+	OptionD  string   `json:"optiond" form:"optiond" binding:"required"`
+	Answer   string   `json:"answer" form:"answer"`
+	Difficulty string  `json:"difficulty" form:"difficulty" binding:"required"`
+	QuizId int         `json:"quizid" form:"quizid"`
+	Quiz Quiz `gorm:"foreignKey:QuizId;References:ID"`
+}
+
+type Quiz struct{
+	ID int `gorm:"primaryKey"`
+	QuizName string `json:"quizname" form:"quizname" binding:"required"	`
+	CreatorID int
+
+
+}
+
+type Teacher_Student struct{
+	TeacherID int `gorm:"primaryKey"`
+	StudentID int `gorm:"primaryKey"`
+
 }

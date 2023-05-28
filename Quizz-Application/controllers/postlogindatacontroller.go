@@ -5,10 +5,15 @@ import (
 	"quizz-application/dbconnection"
 	"quizz-application/models"
 
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
 func PostLoginDataController(c *gin.Context) {
+	session := sessions.Default(c)
+	session.Clear()
+	session.Save()
+
 	var user models.User
 
 	c.ShouldBind(&user)
@@ -28,8 +33,16 @@ func PostLoginDataController(c *gin.Context) {
 		})
 		return
 	}
-	if user.Password == "admin@123"&&newuser.RoleName=="admin" {
+	if user.Password == "admin@123" && newuser.RoleName == "admin" {
 		c.HTML(200, "adminpanel.html", gin.H{
+			"name": newuser.Name,
+		})
+		return
+	}
+	if newuser.RoleName == "teacher" {
+		session.Set("userID", newuser.ID)
+		session.Save()
+		c.HTML(200, "teacherpanel.html", gin.H{
 			"name": newuser.Name,
 		})
 		return
