@@ -40,12 +40,21 @@ func PostLoginDataController(c *gin.Context) {
 		return
 	}
 	if newuser.RoleName == "teacher" {
+		
 		session.Set("userID", newuser.ID)
 		session.Save()
 		c.HTML(200, "teacherpanel.html", gin.H{
 			"name": newuser.Name,
 		})
 		return
+	}
+	if newuser.RoleName=="student" {
+
+		session.Set("userID",newuser.ID)
+		session.Save()
+		c.HTML(200,"studentpanel.html",nil)
+		return
+		
 	}
 	s := fmt.Sprintf("Welcom %s", newuser.Name)
 	c.String(200, s)

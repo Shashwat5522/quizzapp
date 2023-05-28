@@ -15,11 +15,13 @@ func GetQuizController(c *gin.Context) {
 	var questions []models.Questions
 	dbconnection.DB.Debug().Model(&models.Quiz{}).Select("quizzes.quiz_name,questions.question,questions.option_a,questions.option_b,questions.option_c,questions.option_d,questions.answer,questions.difficulty").Joins("inner join questions on questions.quiz_id=quizzes.id").Where("quizzes.quiz_name=?", quizname).Scan(&questions)
 	fmt.Println(questions)
-
 	c.HTML(200,"showquiz.html",gin.H{
-		"data":questions,
+		"questions":questions,
+		"name":quizname,
 	})
+
 	
-
+	
+	
+	
 }
-

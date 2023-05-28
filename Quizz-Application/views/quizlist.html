@@ -12,12 +12,15 @@
     <h1>List of quizzes</h1>
 
 
-
-{{range.quiz}}
+    {{range.quiz}}
     
-<button id="{{.QuizName}}">{{.QuizName}}</button><br><br>
+    <input type="button" value="{{.QuizName}}" id="{{.QuizName}}">
 
-{{end}}
+    {{end}}
+
+
+
+
 
 
 
@@ -30,16 +33,20 @@
 <script>
     
         
-       $(document).on('click','button[id]',function(e){
+       $(document).on('click','input[id]',function(e){
         var quizname=$(this).attr('id');
         console.log(quizname)
-        $.ajax({
-            url:"http://localhost:8080/teacher/quiz?quizname="+quizname,
-            type:"GET"
-            
-        });
+        console.log(typeof(quizname))
+        
+        myfunction(quizname)
 
        });
+       function myfunction(s){
+        console.log(s)
+        var urlLink="http://localhost:8080/teacher/quiz?quizname="+s
+        window.open(urlLink)
+
+    }
 
     
 </script>

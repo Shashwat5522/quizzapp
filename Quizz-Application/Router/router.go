@@ -15,7 +15,7 @@ func Run() {
 	r.Use(sessions.Sessions("mysession", store))
 	r.LoadHTMLGlob("views/*")
 
-	Authentication := r.Group("/authentication", ClearSessionHandler)
+	Authentication := r.Group("/authentication")
 	{
 		Authentication.GET("/Registration", controllers.RegistrationController)
 		Authentication.POST("/PostRegistration", controllers.PostRegistrationDataController)
@@ -32,7 +32,7 @@ func Run() {
 		Admin.POST("/addadmin", controllers.CreateAdminController)
 
 	}
-	Teacher := r.Group("/teacher", SessionHandler)
+	Teacher := r.Group("/teacher")
 	{
 		Teacher.GET("/teacherpanel", controllers.TeacherPanelController)
 		Teacher.GET("/createquizz", controllers.CreateQuizController)
@@ -40,13 +40,19 @@ func Run() {
 		Teacher.GET("/addstudent", controllers.AddStudentController)
 		Teacher.POST("/addstudent", controllers.PostStudentController)
 		Teacher.GET("/listofquiz", controllers.GetListOfQuizController)
-		Teacher.GET("/quiz",controllers.GetQuizController)
+		Teacher.GET("/quiz", controllers.GetQuizController)
+
+	}
+	Student := r.Group("/student")
+	{
+		Student.GET("/studentpanel", controllers.StudentPanelController)
 
 	}
 
 	r.Run(":8080")
 
 }
+
 func SessionHandler(c *gin.Context) {
 	fmt.Println("session is called")
 

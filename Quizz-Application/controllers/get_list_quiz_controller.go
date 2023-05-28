@@ -14,6 +14,7 @@ func GetListOfQuizController(c *gin.Context) {
 	fmt.Println(quiz)
 	c.HTML(200,"quizlist.html",gin.H{
 		"quiz":quiz,
+		
 	})
 	
 
